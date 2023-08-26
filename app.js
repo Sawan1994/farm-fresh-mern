@@ -5,7 +5,19 @@ const fs = require('fs');
 const express = require('express');
 
 const app = express();
+
+// Middlewares
 app.use(express.json());
+
+app.use((req, res, next) => {
+  console.log('Hello from the middleware 👋🏻');
+  next();
+});
+
+app.use((req, res, next) => {
+  req.requestedTime = new Date().toISOString();
+  next();
+});
 
 // Data fetching on start of app
 const tours = JSON.parse(
@@ -16,6 +28,7 @@ const tours = JSON.parse(
 const getAllTours = (req, res) => {
   res.status(200).send({
     status: 'success',
+    requestTime: req.requestedTime,
     results: tours.length,
     data: {
       tours,
