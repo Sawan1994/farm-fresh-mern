@@ -43,6 +43,23 @@ app.get('/api/v1/tours/:id', (req, res) => {
   });
 });
 
+app.delete('/api/v1/tours/:id', (req, res) => {
+  const tourId = req.params.id * 1;
+  const updatedTours = tours.filter((tour) => tour.id !== tourId);
+
+  if (updatedTours.length === tours.length) {
+    return res.status(404).json({
+      status: 'failure',
+      message: 'Invalid ID',
+    });
+  }
+
+  res.status(204).json({
+    status: 'success',
+    data: null,
+  });
+});
+
 app.post('/api/v1/tours', (req, res) => {
   console.log(req.body);
 
