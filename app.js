@@ -1,5 +1,6 @@
 // core modules
 const fs = require('fs');
+const morgan = require('morgan');
 
 // third party modules
 const express = require('express');
@@ -7,6 +8,7 @@ const express = require('express');
 const app = express();
 
 // Middlewares
+app.use(morgan('dev'));
 app.use(express.json());
 
 app.use((req, res, next) => {
@@ -102,6 +104,31 @@ const createTour = (req, res) => {
   );
 };
 
+const getAllUsers = (req, res) => {
+  res.status(500).json({
+    status: 'error',
+    message: 'This route is not defined yet!!!',
+  });
+};
+const createUser = (req, res) => {
+  res.status(500).json({
+    status: 'error',
+    message: 'This route is not defined yet!!!',
+  });
+};
+const getUser = (req, res) => {
+  res.status(500).json({
+    status: 'error',
+    message: 'This route is not defined yet!!!',
+  });
+};
+const deleteUser = (req, res) => {
+  res.status(500).json({
+    status: 'error',
+    message: 'This route is not defined yet!!!',
+  });
+};
+
 // Routes
 // app.get('/api/v1/tours', getAllTours);
 // app.get('/api/v1/tours/:id', getTour);
@@ -111,6 +138,9 @@ const createTour = (req, res) => {
 // Formatted Routes
 app.route('/api/v1/tours').get(getAllTours).post(createTour);
 app.route('/api/v1/tours/:id').get(getTour).delete(deleteTour);
+
+app.route('/api/v1/users').get(getAllUsers).post(createUser);
+app.route('/api/v1/users/:id').get(getUser).delete(deleteUser);
 
 // PORT LISTENER
 const PORT = 3000;
