@@ -13,7 +13,7 @@ const tours = JSON.parse(
 );
 
 // ROUTE HANDLERS
-app.get('/api/v1/tours', (req, res) => {
+const getAllTours = (req, res) => {
   res.status(200).send({
     status: 'success',
     results: tours.length,
@@ -21,9 +21,9 @@ app.get('/api/v1/tours', (req, res) => {
       tours,
     },
   });
-});
+};
 
-app.get('/api/v1/tours/:id', (req, res) => {
+const getTour = (req, res) => {
   const tourId = req.params.id * 1;
   const tour = tours.find((tour) => tour.id === tourId);
 
@@ -41,9 +41,9 @@ app.get('/api/v1/tours/:id', (req, res) => {
       tour,
     },
   });
-});
+};
 
-app.delete('/api/v1/tours/:id', (req, res) => {
+const deleteTour = (req, res) => {
   const tourId = req.params.id * 1;
   const updatedTours = tours.filter((tour) => tour.id !== tourId);
 
@@ -58,9 +58,9 @@ app.delete('/api/v1/tours/:id', (req, res) => {
     status: 'success',
     data: null,
   });
-});
+};
 
-app.post('/api/v1/tours', (req, res) => {
+const createTour = (req, res) => {
   console.log(req.body);
 
   const newId = tours[tours.length - 1].id + 1;
@@ -87,7 +87,17 @@ app.post('/api/v1/tours', (req, res) => {
       });
     }
   );
-});
+};
+
+// Routes
+// app.get('/api/v1/tours', getAllTours);
+// app.get('/api/v1/tours/:id', getTour);
+// app.delete('/api/v1/tours/:id', deleteTour);
+// app.post('/api/v1/tours', createTour);
+
+// Formatted Routes
+app.route('/api/v1/tours').get(getAllTours).post(createTour);
+app.route('/api/v1/tours/:id').get(getTour).delete(deleteTour);
 
 // PORT LISTENER
 const PORT = 3000;
