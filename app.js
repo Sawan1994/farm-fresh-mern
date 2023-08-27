@@ -1,18 +1,29 @@
-const express = require('express');
+// core modules
+const morgan = require('morgan');
 
+const userRouter = require('./routes/userRoutes');
+const tourRouter = require('./routes/tourRoutes');
+
+// third party modules
+const express = require('express');
 const app = express();
 
-app.get('/', (req, res) => {
-  res
-    .status(500)
-    .json({ message: 'Hello from express!!!', app: 'Farm Fresh | MERN' });
+// Middlewares
+app.use(morgan('dev'));
+app.use(express.json());
+
+app.use((req, res, next) => {
+  console.log('Hello from the middleware 👋🏻');
+  next();
 });
 
-app.post('/', (req, res) => {
-  res.send('You can post to this endpoint.');
+app.use((req, res, next) => {
+  req.requestedTime = new Date().toISOString();
+  next();
 });
 
-const PORT = 3000;
-app.listen(PORT, () => {
-  console.log(`Listening on port ${PORT}...`);
-});
+// Formatted Routes
+app.use('/api/v1/tours', tourRouter);
+app.use('/api/v1/users', userRouter);
+
+module.exports = app;
